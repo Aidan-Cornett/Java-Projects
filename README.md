@@ -1,5 +1,6 @@
+--------------------------------------------------------
 The actual projects themselves are located under "src"
-
+--------------------------------------------------------
 
 The following is a repo of projects from me learning the basics of programming!
 
