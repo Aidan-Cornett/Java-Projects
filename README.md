@@ -1,3 +1,6 @@
+The actual projects themselves are located under "src"
+
+
 The following is a repo of projects from me learning the basics of programming!
 
 Prior to this my only experience was a slight bit of time doing Python when I first built my computer. So it may accurate to call this my first!
