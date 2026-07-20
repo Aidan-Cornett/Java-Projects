@@ -8,8 +8,18 @@
 import java.util.Scanner;
 import java.util.Random;
 import java.util.InputMismatchException;
+import java.lang.Math;
 
-public class Final {
+public class C1_DiceGame {
+    //set array with all 0's
+    public static void zeroArray (int[] array) {
+        int i;
+        
+        for (i = 0; i < array.length; ++i) {
+            array[i] = 0;
+        }
+    }
+    
     //find array index of max value for histogram creation, this value will == 10 asterisks.
     public static int findMax(int[] array) {
         int maxLoc = 0;
@@ -73,9 +83,7 @@ public class Final {
         boolean isValidR = false;
 
         // set every list item inside "count" to 0
-        for (i = 0; i < count.length; ++i) {
-            count[i] = 0;
-        }
+        zeroArray(count);
 
         
         // ask user which dice set they want: '1' for 1 die (2-12) OR '2' for 2 dice (1-6) OR '3' to exit
@@ -85,7 +93,7 @@ public class Final {
                                 "1) Set number of rolls (Current: "+n+")\n" +
                                 "2) 1 die (2-12)\n" +
                                 "3) 2 die (1-6) + (1-6)\n" +
-                                "4) quit program\n");
+                                "4) Quit program\n");
             // input validation
             try {
                 response = scnr.nextInt();
@@ -141,10 +149,17 @@ public class Final {
                                    "----------------------\n");
 
                 for (i = 0; i < 11; ++i) {
-                    System.out.println((i + 2) + ":  " + count[i]);
+                    //This is set like this to make the numbers straight
+                    if ((i + 2) < 10) {
+                        System.out.println((i + 2) + ":  " + count[i]);
+                    }
+                    if ((i + 2) >= 10) {
+                        System.out.println((i + 2) + ": " + count[i]);
+                    }
                 }
                 printDistribution(count, findMax(count));
                 System.out.println("\n");
+                zeroArray(count);
                 isValidR = false;
             }
 
@@ -159,7 +174,6 @@ public class Final {
                 System.out.print("\n----------------------\n" +
                                    "  Frequency of rolls\n" +
                                    "----------------------\n");
-
                 for (i = 0; i < 11; ++i) {
                     if ((i + 2) < 10) {
                         System.out.println((i + 2) + ":  " + count[i]);
@@ -170,6 +184,7 @@ public class Final {
                 }
                 printDistribution(count, findMax(count));
                 System.out.println("\n");
+                zeroArray(count);
                 isValidR = false;
             }
 
@@ -177,6 +192,7 @@ public class Final {
             if (response == 4) {
                 isValidR = true;
                 scnr.close();
+                zeroArray(count);
                 return;
             }
         }
