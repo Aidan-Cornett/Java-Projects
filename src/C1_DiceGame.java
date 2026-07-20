@@ -1,5 +1,5 @@
 /* 
- * Aidan Corentt final ver: 1 
+ * Aidan Corentt DiceGame ver: 2 
  * ----------------------------
  * I will put my original pseudocode notes above most of my main functions for readability!
  */
@@ -55,14 +55,13 @@ public class C1_DiceGame {
             if ((i + 2) >= 10) {
                 System.out.print((i + 2) + ": ");
             }
-            System.out.print("*");
 
-            for (j = 0; j < 20; ++j) {
+            for (j = 0; j < 10; ++j) {
                 double relationToMax = (Math.round(((array[i] * 10) / max)));
                 if (j == relationToMax) {
                     break;
             }
-                System.out.print("*");
+            System.out.print("*");
             }
         }
         System.out.print("\n--------- End ----------");
@@ -74,7 +73,8 @@ public class C1_DiceGame {
         // all main variables ### check before submission ###
         Scanner scnr = new Scanner(System.in);
         Random die = new Random();
-        int i;
+        // i is a long to prevent overflow
+        long i;
         long n = 1;
         int response = 0;
         int value = 0;
@@ -104,7 +104,7 @@ public class C1_DiceGame {
             }
             if (response != 1 && response != 2 && response != 3 && response != 4) {
                 System.out.println("\nInvalid input\n" +
-                                   "Valid inputs: 1, 2, or 3");
+                                   "Valid inputs: 1, 2, 3, or 4");
             }
             
             // set number of rolls block --- I REALLY didn't want to reporgram so this was my solution :)
@@ -127,7 +127,7 @@ public class C1_DiceGame {
                     if (n <= 0) {
                         System.out.println("* Negatives or zero values are not valid.\n");
                     }
-                    else if (n > 5000000000000L) {
+                    else if (n > 5_000_000_000_000L) {
                         System.out.println("value too large: i.e. larger than 5,000,000,000,000.\n");
                     }
                     else {
@@ -151,10 +151,10 @@ public class C1_DiceGame {
                 for (i = 0; i < 11; ++i) {
                     //This is set like this to make the numbers straight
                     if ((i + 2) < 10) {
-                        System.out.println((i + 2) + ":  " + count[i]);
+                        System.out.println((i + 2) + ":  " + count[(int)i]);
                     }
                     if ((i + 2) >= 10) {
-                        System.out.println((i + 2) + ": " + count[i]);
+                        System.out.println((i + 2) + ": " + count[(int)i]);
                     }
                 }
                 printDistribution(count, findMax(count));
@@ -176,10 +176,10 @@ public class C1_DiceGame {
                                    "----------------------\n");
                 for (i = 0; i < 11; ++i) {
                     if ((i + 2) < 10) {
-                        System.out.println((i + 2) + ":  " + count[i]);
+                        System.out.println((i + 2) + ":  " + count[(int)i]);
                     }
                     if ((i + 2) >= 10) {
-                        System.out.println((i + 2) + ": " + count[i]);
+                        System.out.println((i + 2) + ": " + count[(int)i]);
                     }
                 }
                 printDistribution(count, findMax(count));
