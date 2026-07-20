@@ -12,14 +12,14 @@ I also wanted to write this README for students who want to reference why I did 
  3. 2 die (1-6) + (1-6)
  4. Quit program
  
- ### The menu
+ ## The menu
  The menu is asking for a response (1, 2, 3, or 4). This is checked based on the following:
  * Is it a number? 
 	 * This must be checked first because exceptions do not like being checked with an *if()* statement.
  * Is it 1, 2, 3, or 4?
 
 If these things are true then response validity (*isValidR*) is set to true. **Validity is true ONLY for the time of the block execution.** Meaning, while the program is doing math and rolling dice, what you put is valid. It becomes invalid once the  program has finished rolling dice and printing counts and the histogram. Because **while** your response is invalid the menu will be asking you what it should do.
- ### Set number of rolls (Current: X)
+ ## Set number of rolls (Current: X)
  This is just a while loop that checks for "Is the number of rolls (*n*) a valid number? This is based on the checks:
  * Is it a positive non-zero number?
 	 * You can't roll a die 0 times, you **definitiely** can't roll a die negative times 
@@ -27,7 +27,7 @@ If these things are true then response validity (*isValidR*) is set to true. **V
 	 * I set this as a Long type of 5 trillion, good luck computing that.
 
 If all of these things are true, then n is valid (i.e. *isValidN = true*). The loop iterates and checks again, then sets response validity to false. Which sends you back to the main menu.
-### 1 die (1-6) + (1-6) and 2 dice (2-12)
+## 1 die (1-6) + (1-6) and 2 dice (2-12)
 These are nested for loops that set a variable called *value* to a random number (0 - 10) || (0 - 5) + (0 - 5). Then, an array of all possible results (which remember can only be 2 - 12 in both cases) is incremented by 1 AT the value that was just rolled.
 
 like so: say on iteration 1 we roll a 9 the array then looks like this
