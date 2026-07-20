@@ -12,7 +12,7 @@ import java.lang.Math;
 
 public class C1_DiceGame {
     //set array with all 0's
-    public static void zeroArray (int[] array) {
+    public static void zeroArray (long[] array) {
         int i;
         
         for (i = 0; i < array.length; ++i) {
@@ -21,16 +21,16 @@ public class C1_DiceGame {
     }
     
     //find array index of max value for histogram creation, this value will == 10 asterisks.
-    public static int findMax(int[] array) {
+    public static int findMax(long[] array) {
         int maxLoc = 0;
-        int maxVal = array[0];
+        long maxVal = array[(int)0];
         int i;
 
         
         for (i = 1; i < 11; ++i) {
             if (array[i] > maxVal) {
                 maxLoc = i;
-                maxVal = array[i];
+                maxVal = array[(int)i];
             }
         }
 
@@ -38,7 +38,7 @@ public class C1_DiceGame {
     }
 
     //print the height of bar (using asterisks), this method, calculates the reltionship (using divison) between the max value and each die value. and prints a histogram of asterisks.
-    public static void printDistribution(int[] array, int indexOfMax) {
+    public static void printDistribution(long[] array, int indexOfMax) {
         int i;
         int j;
         double max = array[indexOfMax];
@@ -57,7 +57,7 @@ public class C1_DiceGame {
             }
 
             for (j = 0; j < 10; ++j) {
-                double relationToMax = (Math.round(((array[i] * 10) / max)));
+                double relationToMax = (Math.round(((array[i] * 10L) / max)));
                 if (j == relationToMax) {
                     break;
             }
@@ -78,7 +78,7 @@ public class C1_DiceGame {
         long n = 1;
         int response = 0;
         int value = 0;
-        int[] count = new int[11];
+        long[] count = new long[11];
         boolean isValidN = false;
         boolean isValidR = false;
 
@@ -89,7 +89,7 @@ public class C1_DiceGame {
         // ask user which dice set they want: '1' for 1 die (2-12) OR '2' for 2 dice (1-6) OR '3' to exit
         // edit: Wanted a repeat menu so now, '1' for set roll count || '2' for 1 die || '3' for 2 die || '4' for exit 
         while (isValidR == false) {
-            System.out.println("\nWhich dice set would you like to roll?\n\n" + 
+            System.out.println("\n----------------Menu---------------\n" + 
                                 "1) Set number of rolls (Current: "+n+")\n" +
                                 "2) 1 die (2-12)\n" +
                                 "3) 2 die (1-6) + (1-6)\n" +
@@ -120,7 +120,7 @@ public class C1_DiceGame {
                         n = scnr.nextLong();
                     }
                     catch (InputMismatchException e) {
-                        System.out.println("* Input is not a number.\n");
+                        System.out.println("* Input is not a valid integer.\n");
                         scnr.next();
                     }
                     
