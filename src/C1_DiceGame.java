@@ -1,5 +1,5 @@
 /* 
- * Aidan Corentt DiceGame ver: 2 
+ * Aidan Corentt DiceGame ver: 3
  * ----------------------------
  * I will put my original pseudocode notes above most of my main functions for readability!
  */
@@ -11,6 +11,11 @@ import java.util.InputMismatchException;
 import java.lang.Math;
 
 public class C1_DiceGame {
+    public static void loadingBar (long iteration, long total) {
+
+    }
+
+
     //set array with all 0's
     public static void zeroArray (long[] array) {
         int i;
@@ -44,8 +49,8 @@ public class C1_DiceGame {
         double max = array[indexOfMax];
         
         System.out.print("-------------------------\n" +
-                           "  Distribution of rolls\n" +
-                           "-------------------------");
+                         "  Distribution of rolls  \n" +
+                         "-------------------------");
 
         for (i = 0; i < 11; ++i) {
             System.out.println("");
@@ -69,6 +74,7 @@ public class C1_DiceGame {
 
     public static void main(String[] args) {
 
+
         // all main variables ### check before submission ###
         Scanner scnr = new Scanner(System.in);
         Random die = new Random();
@@ -84,6 +90,7 @@ public class C1_DiceGame {
         boolean isValidN = false;
         boolean isValidR = false;
 
+
         // set every list item inside "count" to 0
         zeroArray(count);
 
@@ -96,7 +103,9 @@ public class C1_DiceGame {
                                 "2) 1 die (2-12)\n" +
                                 "3) 2 die (1-6) + (1-6)\n" +
                                 "4) Quit program\n");
-            // input validation
+            
+            
+            // R input validation
             try {
                 response = scnr.nextInt();
             }
@@ -109,15 +118,18 @@ public class C1_DiceGame {
                                    "Valid inputs: 1, 2, 3, or 4");
             }
             
-            // set number of rolls block --- I REALLY didn't want to reporgram so this was my solution :)
+
+
+            // set number of rolls block
             if (response == 1) {
                 n = 0;
                 isValidN = false;
+                
                 // ask user how many times they want to roll their die / dice, then validate their input and save to n.
-                // I don't think try {} blocks are covered in the ZyBooks so this may be out of scope lol.
                 while (isValidN == false) {
                     System.out.println("\nHow many times would you like to roll your die / dice?");
-                    // input validation (condense to method if possible)
+                    
+                    // N input validation
                     try {
                         n = scnr.nextLong();
                     }
@@ -129,8 +141,8 @@ public class C1_DiceGame {
                     if (n <= 0) {
                         System.out.println("* Negatives or zero values are not valid.\n");
                     }
-                    else if (n > 5_000_000_000_000L) {
-                        System.out.println("value too large: i.e. larger than 5,000,000,000,000.\n");
+                    else if (n > 1_000_000_000_000_000_000L) {
+                        System.out.println("value too large: i.e. larger than 1,000,000,000,000,000,000. (1 quintillion)\n");
                     }
                     else {
                         isValidN = true;
@@ -139,20 +151,27 @@ public class C1_DiceGame {
                 }
             }
             
+
+
             // (2 - 12) block
             if (response == 2) {
+                
                 strtTime = System.nanoTime();
                 isValidR = true;
+                
+                //value selection (2 - 12)
                 for (i = 0; i < n; ++i) {
                     value = die.nextInt(11);
                     count[value] += 1;
                 }
+                
                 System.out.print("\n----------------------\n" +
                                    "  Frequency of rolls\n" +
                                    "----------------------\n");
 
                 for (i = 0; i < 11; ++i) {
-                    //This is set like this to make the numbers straight
+                    
+                    //Resulting value formatting
                     if ((i + 2) < 10) {
                         System.out.println((i + 2) + ":  " + count[(int)i]);
                     }
@@ -160,30 +179,40 @@ public class C1_DiceGame {
                         System.out.println((i + 2) + ": " + count[(int)i]);
                     }
                 }
+                
                 printDistribution(count, findMax(count));
+                
+                //time printing
                 endTime = System.nanoTime();
                 duration = (endTime - strtTime) / 1_000_000;
                 System.out.println("\n      " + (double)duration / 1000 + " seconds");
                 System.out.print("--------- End ----------\n\n");
                 
+                //reset
                 zeroArray(count);
                 duration = 0;
                 isValidR = false;
             }
 
+
+
             // (1-6) + (1-6) block, 2 rolls = 1 value
             if (response == 3) {
                 strtTime = System.nanoTime();
                 isValidR = true;
+                
+                //value selection (1 - 6) + (1 - 6)
                 for (i = 0; i < n; ++i) {
                     value = die.nextInt(6) + die.nextInt(6);
                     count[value] += 1;
                 }
 
                 System.out.print("\n----------------------\n" +
-                                   "  Frequency of rolls\n" +
+                                   "  Frequency of rolls  \n" +
                                    "----------------------\n");
                 for (i = 0; i < 11; ++i) {
+
+                    //resulting value formatting
                     if ((i + 2) < 10) {
                         System.out.println((i + 2) + ":  " + count[(int)i]);
                     }
@@ -191,14 +220,22 @@ public class C1_DiceGame {
                         System.out.println((i + 2) + ": " + count[(int)i]);
                     }
                 }
+
                 printDistribution(count, findMax(count));
+                
+                //time printing
                 endTime = System.nanoTime();
                 duration = (endTime - strtTime) / 1_000_000;
                 System.out.println("\n      " + (double)duration / 1000 + " seconds");
                 System.out.print("--------- End ----------\n\n");
+                
+                //reset
                 zeroArray(count);
+                duration = 0;
                 isValidR = false;
             }
+
+
 
             // quit block
             if (response == 4) {
