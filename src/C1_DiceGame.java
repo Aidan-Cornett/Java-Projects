@@ -2,6 +2,9 @@
  * Aidan Corentt DiceGame ver: 3
  * ----------------------------
  * I will put my original pseudocode notes above most of my main functions for readability!
+ * I am enjoying this SO much! Basically spent the whole day (7 / 20 /2026) adding small things!
+ * 
+ * I want to put a loading bar, but my first attempt 100x'd my time so research is needed.
  */
 
 
@@ -9,13 +12,14 @@ import java.util.Scanner;
 import java.util.Random;
 import java.util.InputMismatchException;
 import java.lang.Math;
+import java.text.DecimalFormat;
 
 public class C1_DiceGame {
     public static void loadingBar (long iteration, long total) {
-
+        //currently does nothing!
     }
 
-
+    
     //set array with all 0's
     public static void zeroArray (long[] array) {
         int i;
@@ -78,6 +82,7 @@ public class C1_DiceGame {
         // all main variables ### check before submission ###
         Scanner scnr = new Scanner(System.in);
         Random die = new Random();
+        DecimalFormat Format = new DecimalFormat();
         // i is a long to prevent overflow
         long i;
         long n = 1;
@@ -95,14 +100,13 @@ public class C1_DiceGame {
         zeroArray(count);
 
         
-        // ask user which dice set they want: '1' for 1 die (2-12) OR '2' for 2 dice (1-6) OR '3' to exit
-        // edit: Wanted a repeat menu so now, '1' for set roll count || '2' for 1 die || '3' for 2 die || '4' for exit 
+        // menu, '1' for set roll count || '2' for 1 die || '3' for 2 die || '4' for exit 
         while (isValidR == false) {
-            System.out.println("\n--------------- Menu --------------\n" + 
-                                "1) Set number of rolls (Current: "+n+")\n" +
-                                "2) 1 die (2-12)\n" +
-                                "3) 2 die (1-6) + (1-6)\n" +
-                                "4) Quit program\n");
+            System.out.println("\n ----------------- Menu ----------------"   + "\n" +
+                                  "1) Set number of rolls (Current: "+Format.format(n)+")"   + "\n" +
+                                  "2) 1 die (2-12)"                           + "\n" +
+                                  "3) 2 die (1-6) + (1-6)"                    + "\n" +
+                                  "4) Quit program"                           + "\n");
             
             
             // R input validation
@@ -110,12 +114,12 @@ public class C1_DiceGame {
                 response = scnr.nextInt();
             }
             catch (InputMismatchException e) {
-                System.out.println("* Input is not a number.");
+                System.out.println("> Input is not a number.");
                 scnr.next();
             }
             if (response != 1 && response != 2 && response != 3 && response != 4) {
                 System.out.println("\nInvalid input\n" +
-                                   "Valid inputs: 1, 2, 3, or 4");
+                                   "> Valid inputs: 1, 2, 3, or 4");
             }
             
 
@@ -134,15 +138,15 @@ public class C1_DiceGame {
                         n = scnr.nextLong();
                     }
                     catch (InputMismatchException e) {
-                        System.out.println("* Input is not a valid integer.\n");
+                        System.out.println("> Input is not a valid integer.\n");
                         scnr.next();
                     }
                     
                     if (n <= 0) {
-                        System.out.println("* Negatives or zero values are not valid.\n");
+                        System.out.println("> Negatives or zero values are not valid.\n");
                     }
                     else if (n > 1_000_000_000_000_000_000L) {
-                        System.out.println("value too large: i.e. larger than 1,000,000,000,000,000,000. (1 quintillion)\n");
+                        System.out.println("> value too large: i.e. larger than 1,000,000,000,000,000,000. (1 quintillion)\n");
                     }
                     else {
                         isValidN = true;
@@ -159,14 +163,15 @@ public class C1_DiceGame {
                 strtTime = System.nanoTime();
                 isValidR = true;
                 
-                //value selection (2 - 12)
-                for (i = 0; i < n; ++i) {
+                //value selection (2 - 12) -------- weird for loop structure to avoid division of 0 in loading bar
+                for (i = 1; i <= n; ++i) {
                     value = die.nextInt(11);
                     count[value] += 1;
                 }
                 
+
                 System.out.print("\n----------------------\n" +
-                                   "  Frequency of rolls\n" +
+                                   "  Frequency of rolls  \n" +
                                    "----------------------\n");
 
                 for (i = 0; i < 11; ++i) {
@@ -201,8 +206,8 @@ public class C1_DiceGame {
                 strtTime = System.nanoTime();
                 isValidR = true;
                 
-                //value selection (1 - 6) + (1 - 6)
-                for (i = 0; i < n; ++i) {
+                //value selection (1 - 6) + (1 - 6) -------- weird for loop structure to avoid division of 0 in loading bar
+                for (i = 1; i <= n; ++i) {
                     value = die.nextInt(6) + die.nextInt(6);
                     count[value] += 1;
                 }
@@ -226,7 +231,12 @@ public class C1_DiceGame {
                 //time printing
                 endTime = System.nanoTime();
                 duration = (endTime - strtTime) / 1_000_000;
-                System.out.println("\n      " + (double)duration / 1000 + " seconds");
+                if (duration != 0.0) {
+                    System.out.println("\n      " + (double)duration / 1000 + " seconds");
+                }
+                else {
+                    System.out.println("\n      < 0.000 seconds");
+                }
                 System.out.print("--------- End ----------\n\n");
                 
                 //reset
