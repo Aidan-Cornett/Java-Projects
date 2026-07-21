@@ -56,15 +56,14 @@ public class C1_DiceGame {
                 System.out.print((i + 2) + ": ");
             }
 
-            for (j = 0; j < 10; ++j) {
-                double relationToMax = (Math.round(((array[i] * 10L) / max)));
+            for (j = 0; j < 25; ++j) {
+                double relationToMax = (Math.round(((array[i] * 25L) / max)));
                 if (j == relationToMax) {
                     break;
             }
             System.out.print("*");
             }
         }
-        System.out.print("\n--------- End ----------");
         return;
     }
 
@@ -76,6 +75,9 @@ public class C1_DiceGame {
         // i is a long to prevent overflow
         long i;
         long n = 1;
+        long strtTime = 0;
+        long endTime = 0;
+        long duration;
         int response = 0;
         int value = 0;
         long[] count = new long[11];
@@ -89,7 +91,7 @@ public class C1_DiceGame {
         // ask user which dice set they want: '1' for 1 die (2-12) OR '2' for 2 dice (1-6) OR '3' to exit
         // edit: Wanted a repeat menu so now, '1' for set roll count || '2' for 1 die || '3' for 2 die || '4' for exit 
         while (isValidR == false) {
-            System.out.println("\n----------------Menu---------------\n" + 
+            System.out.println("\n--------------- Menu --------------\n" + 
                                 "1) Set number of rolls (Current: "+n+")\n" +
                                 "2) 1 die (2-12)\n" +
                                 "3) 2 die (1-6) + (1-6)\n" +
@@ -139,6 +141,7 @@ public class C1_DiceGame {
             
             // (2 - 12) block
             if (response == 2) {
+                strtTime = System.nanoTime();
                 isValidR = true;
                 for (i = 0; i < n; ++i) {
                     value = die.nextInt(11);
@@ -158,13 +161,19 @@ public class C1_DiceGame {
                     }
                 }
                 printDistribution(count, findMax(count));
-                System.out.println("\n");
+                endTime = System.nanoTime();
+                duration = (endTime - strtTime) / 1_000_000;
+                System.out.println("\n      " + (double)duration / 1000 + " seconds");
+                System.out.print("--------- End ----------\n\n");
+                
                 zeroArray(count);
+                duration = 0;
                 isValidR = false;
             }
 
             // (1-6) + (1-6) block, 2 rolls = 1 value
             if (response == 3) {
+                strtTime = System.nanoTime();
                 isValidR = true;
                 for (i = 0; i < n; ++i) {
                     value = die.nextInt(6) + die.nextInt(6);
@@ -183,7 +192,10 @@ public class C1_DiceGame {
                     }
                 }
                 printDistribution(count, findMax(count));
-                System.out.println("\n");
+                endTime = System.nanoTime();
+                duration = (endTime - strtTime) / 1_000_000;
+                System.out.println("\n      " + (double)duration / 1000 + " seconds");
+                System.out.print("--------- End ----------\n\n");
                 zeroArray(count);
                 isValidR = false;
             }
