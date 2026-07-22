@@ -17,6 +17,30 @@ import java.lang.Math;
 import java.text.DecimalFormat;
 
 public class C1_DiceGame {
+    public static int validateR(int response, Scanner scnr, long n) {
+        DecimalFormat Formater = new DecimalFormat();
+        System.out.println("\n  ------------- Menu -------------"                         + "\n" +
+                             "1) Set number of rolls (Current: "+Formater.format(n)+")"   + "\n" +
+                             "2) 1 die (2-12)"                                            + "\n" +
+                             "3) 2 die (1-6) + (1-6)"                                     + "\n" +
+                             "4) Quit program"                                            + "\n");
+            
+        // R input validation
+        try {
+            response = scnr.nextInt();
+        }
+        catch (InputMismatchException e) {
+            System.out.println("> Input is not a number.");
+            scnr.next();
+        }
+        if (response != 1 && response != 2 && response != 3 && response != 4) {
+            System.out.println("\nInvalid input\n" +
+                                "> Valid inputs: 1, 2, 3, or 4");
+            response = 0;
+        }
+        return response;
+    }
+
     public static long[] roll2Dice(long rolls, Random die, long[] count) {
         long i;
         for (i = 1; i <= rolls; ++i) {
@@ -88,7 +112,7 @@ public class C1_DiceGame {
             System.out.println("\n      " + (double)duration / 1000 + " seconds");
         }
         else {
-            System.out.println("\n      < 0.000 seconds");
+            System.out.println("\n    < 0.000 seconds");
         }
         System.out.print("--------- End ----------\n\n");
         duration = 0;
@@ -164,14 +188,10 @@ public class C1_DiceGame {
         // all main variables ### check before submission ###
         Scanner scnr = new Scanner(System.in);
         Random die = new Random();
-        DecimalFormat Formater = new DecimalFormat();
-        // i is a long to prevent overflow for very large dice roll amounts
-        long i;
         long n = 1;
         long strtTime = 0;
         long endTime = 0;
         int response = 0;
-        int value = 0;
         long[] count = new long[11];
         boolean isValidN = false;
         boolean isValidR = false;
@@ -180,30 +200,13 @@ public class C1_DiceGame {
         // set every item inside arrray "count" to 0
         zeroArray(count);
 
-        
         // menu, '1' for set roll count || '2' for 1 die || '3' for 2 die || '4' for exit 
         while (isValidR == false) {
-            System.out.println("\n ----------------- Menu ----------------"                  + "\n" +
-                                  "1) Set number of rolls (Current: "+Formater.format(n)+")"   + "\n" +
-                                  "2) 1 die (2-12)"                                          + "\n" +
-                                  "3) 2 die (1-6) + (1-6)"                                   + "\n" +
-                                  "4) Quit program"                                          + "\n");
-            
-            
-            // R input validation
-            try {
-                response = scnr.nextInt();
+            response = validateR(response, scnr, n);
+            if (response != 0) {
+                isValidR = true;
             }
-            catch (InputMismatchException e) {
-                System.out.println("> Input is not a number.");
-                scnr.next();
-            }
-            if (response != 1 && response != 2 && response != 3 && response != 4) {
-                System.out.println("\nInvalid input\n" +
-                                   "> Valid inputs: 1, 2, 3, or 4");
-            }
-            
-
+        
 
             // set number of rolls block
             if (response == 1) {
@@ -222,7 +225,6 @@ public class C1_DiceGame {
             }
             
 
-
             // (2 - 12) block
             if (response == 2) {
                 
@@ -232,7 +234,7 @@ public class C1_DiceGame {
                 //value selection (2 - 12)
                 count = roll1Die(n, die, count);
                 
-                // value and curve printing
+                // value, curve, and time printing
                 printFrequency(count);
                 printDistribution(count, findMax(count));
                 // time printing
@@ -242,7 +244,6 @@ public class C1_DiceGame {
                 zeroArray(count);
                 isValidR = false;
             }
-
 
 
             // (1-6) + (1-6) block, 2 rolls = 1 value
@@ -255,16 +256,13 @@ public class C1_DiceGame {
 
                 printFrequency(count);
                 printDistribution(count, findMax(count));
-                
                 //time printing
                 endTime = System.nanoTime();
                 printTime(strtTime, endTime);
-                
                 //reset
                 zeroArray(count);
                 isValidR = false;
             }
-
 
 
             // quit block
@@ -275,6 +273,5 @@ public class C1_DiceGame {
                 return;
             }
         }
-    scnr.close();
     }
 }
