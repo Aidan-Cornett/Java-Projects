@@ -1,10 +1,11 @@
 /* 
- * Aidan Corentt DiceGame ver: 4
+ * Aidan Corentt DiceGame ver: 5
  * ----------------------------
  * I will put my original pseudocode notes above most of my main functions for readability!
  * I am enjoying this SO much! Basically spent the whole day (7 / 20 /2026) adding small things and fixing bugs!
  * 
  * Version 4: added a bunch of methods and fixed irrelevant errors when getting n from input
+ * Version 5: I now have a loading bar, it is not good but I need to learn about StringBuilder objects
  * 
  * I want to put a loading bar, but my first attempt 100x'd my time so research is needed.
  */
@@ -35,30 +36,44 @@ public class C1_DiceGame {
         }
         if (response != 1 && response != 2 && response != 3 && response != 4) {
             System.out.println("\nInvalid input\n" +
-                                "> Valid inputs: 1, 2, 3, or 4");
+                                 "> Valid inputs: 1, 2, 3, or 4");
             response = 0;
         }
         return response;
     }
 
+
     public static long[] roll2Dice(long rolls, Random die, long[] count) {
+        int i;
+        long j;
+        long percentChunk = rolls / 100;
+        String bar = "";
+        String barNull = "";
+
+        for (i = 1; i <= 100; ++i) {
+            bar += "#";
+            System.out.print("\r(" + i + "%)" + "  [ " + bar + barNull + " ]");
+            
+            for (j = 1; j <= percentChunk; ++j) {
+                int value = die.nextInt(6) + die.nextInt(6);
+                count[value] += 1;
+            }
+        }
+            return count;
+    }
+
+
+    public static long[] roll1Die(long rolls, Random die, long[] count) {
         long i;
-        for (i = 1; i <= rolls; ++i) {
-            int value = die.nextInt(6) + die.nextInt(6);
-            count[value] += 1;
+
+            for (i = 1; i <= rolls; ++i) {
+                int value = die.nextInt(11);
+                count[value] += 1;
         }
         return count;
     }
 
-    public static long[] roll1Die(long rolls, Random die, long[] count) {
-        long i;
-        for (i = 1; i <= rolls; ++i) {
-            int value = die.nextInt(11);
-            count[value] += 1;
-        }
-        return count;
-    }
-    
+
     //validates the users input of N
     public static long validateN (long n, Scanner scnr) {
         boolean validLong = false;
@@ -86,26 +101,30 @@ public class C1_DiceGame {
             return n;
         }
     }
-    
+
+
     //prints the total times a certain value is rolled
     public static void printFrequency (long[] count) {
         int i;
-        System.out.print("\n----------------------\n" +
-                           "  Frequency of rolls  \n" +
-                           "----------------------\n");
+        DecimalFormat Formater = new DecimalFormat();
 
-                for (i = 0; i < 11; ++i) {
-                    
-                    //Resulting value formatting
-                    if ((i + 2) < 10) {
-                        System.out.println((i + 2) + ":  " + count[(int)i]);
-                    }
-                    if ((i + 2) >= 10) {
-                        System.out.println((i + 2) + ": " + count[(int)i]);
-                    }
-                }
+        System.out.print("\n----------------------   \n" +
+                            "  Frequency of rolls    \n" +
+                            "----------------------  \n");
+
+        for (i = 0; i < 11; ++i) {
+            
+            //Resulting value formatting
+            if ((i + 2) < 10) {
+                System.out.println((i + 2) + ":  " + Formater.format(count[i]));
+            }
+            if ((i + 2) >= 10) {
+                System.out.println((i + 2) + ": " + Formater.format(count[i]));
+            }
+        }
     }
-    
+
+
     public static void printTime (long start, long end) {
         long duration = (end - start) / 1_000_000;
         if (duration != 0.0) {
@@ -182,7 +201,7 @@ public class C1_DiceGame {
     }
 
 
-    //main!!
+    // main!!
     public static void main (String[] args) {
 
         // all main variables ### check before submission ###
